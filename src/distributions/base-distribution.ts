@@ -37,9 +37,15 @@ export default abstract class BaseDistribution {
     if (toolPath) {
       core.info(`Found in cache @ ${toolPath}`);
     } else {
-      const evaluatedVersion = await this.findVersionInDist(nodeJsVersions);
-      const toolName = this.getNodejsDistInfo(evaluatedVersion);
-      toolPath = await this.downloadNodejs(toolName);
+      const customUrl = core.getInput('custom-url');
+      if (customUrl) {
+        const toolName = this.getNodejsDistInfo(this.nodeInfo.versionSpec);
+        toolPath = await this.downloadNodejs(toolName);
+      } else {
+        const evaluatedVersion = await this.findVersionInDist(nodeJsVersions);
+        const toolName = this.getNodejsDistInfo(evaluatedVersion);
+        toolPath = await this.downloadNodejs(toolName);
+      }
     }
 
     if (this.osPlat != 'win32') {
@@ -121,7 +127,7 @@ export default abstract class BaseDistribution {
     let url = `${initialUrl}/v${version}/${urlFileName}`;
 
     const customUrl = core.getInput('custom-url');
-    if (customUrl){
+    if (customUrl) {
       url = customUrl;
     }
 

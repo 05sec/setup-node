@@ -93795,9 +93795,16 @@ class BaseDistribution {
                 core.info(`Found in cache @ ${toolPath}`);
             }
             else {
-                const evaluatedVersion = yield this.findVersionInDist(nodeJsVersions);
-                const toolName = this.getNodejsDistInfo(evaluatedVersion);
-                toolPath = yield this.downloadNodejs(toolName);
+                const customUrl = core.getInput('custom-url');
+                if (customUrl) {
+                    const toolName = this.getNodejsDistInfo(this.nodeInfo.versionSpec);
+                    toolPath = yield this.downloadNodejs(toolName);
+                }
+                else {
+                    const evaluatedVersion = yield this.findVersionInDist(nodeJsVersions);
+                    const toolName = this.getNodejsDistInfo(evaluatedVersion);
+                    toolPath = yield this.downloadNodejs(toolName);
+                }
             }
             if (this.osPlat != 'win32') {
                 toolPath = path.join(toolPath, 'bin');
