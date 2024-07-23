@@ -93860,7 +93860,11 @@ class BaseDistribution {
                 : `${fileName}.7z`
             : `${fileName}.tar.gz`;
         const initialUrl = this.getDistributionUrl();
-        const url = `${initialUrl}/v${version}/${urlFileName}`;
+        let url = `${initialUrl}/v${version}/${urlFileName}`;
+        const customUrl = core.getInput('custom-url');
+        if (customUrl) {
+            url = customUrl;
+        }
         return {
             downloadUrl: url,
             resolvedVersion: version,

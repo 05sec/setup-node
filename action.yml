@@ -2,6 +2,8 @@ name: 'Setup Node.js environment'
 description: 'Setup a Node.js environment by adding problem matchers and optionally downloading and adding it to the PATH.'
 author: 'GitHub'
 inputs:
+  custom-url:
+    description: 'Custom url for Node download.'
   always-auth:
     description: 'Set always-auth in npmrc.'
     default: 'false'
