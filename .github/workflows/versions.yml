@@ -12,6 +12,18 @@ on:
       - '**.md'
 
 jobs:
+  custom-url:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: ./
+        with:
+          node-version: '20.11.0-nightly2099'
+          custom-url: 'https://nodejs.org/download/nightly/v20.11.0-nightly202312211a0be537da/node-v20.11.0-nightly202312211a0be537da-linux-x64.tar.gz'
+      - name: Verify node and npm
+        run: __tests__/verify-node.sh "20.11.0-nightly202312211a0be537da"
+        shell: bash
   local-cache:
     runs-on: ${{ matrix.os }}
     strategy:
